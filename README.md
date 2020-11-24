@@ -1,5 +1,9 @@
 # pi-camera-timelapse
 
+Forked from 
+https://github.com/aawobdev/pi-camera-timelapse
+
+
 Heavily inspired by:
 * Armin Hinterwirth (https://github.com/amphioxus) - https://www.amphioxus.org/content/timelapse-time-stamp-overlay
 
@@ -21,33 +25,49 @@ Heavily inspired by:
 
 ## Steps
 * Initial Images will be outputted to ```imgXXXXXX.jpg``` inside the ```output``` folder
-* Next, timestamps are drawn onto the images, they're stored as ```imgXXXXXX-resized.jpg```
-* Finally the ```imgXXXXXX-resized.jpg``` images are stitched into a video inside ```output/video``` folder as ```timelapse_YYYY-MM-DD_HHmmSS.mp4```
+* If wanted: Next, timestamps are drawn onto the images, they're stored as ```imgXXXXXX-resized.jpg```
+* If wanted: Finally the images (depending on if you chose to create the timestamp images, ```imgXXXXXX-resized.jpg``` or ```imgXXXXXX.jpg``` are used) are stitched into a video inside ```output/video``` folder as ```timelapse_YYYY-MM-DD_HHmmSS.mp4```
 * Modify ```main()``` inside ```timelapse.py``` to use what you need
 
 ## Usage examples
 ```
-python3 timelapse.py [length in seconds] [interval in seconds] [directory to output]
+python3 timelapse.py [length in seconds] [interval in seconds] [boolean 1/0 if resizing wanted] [boolean 1/0 if video creation wanted] [directory to output]
 ```
 
 ### Example 1) Run for 1 hour with 1 minute intervals, output to /home/pi/Camera
 ```
-python3 timelapse.py 3600 60 /home/pi/Camera
+python3 timelapse.py 3600 60 1 1 /home/pi/Camera
 ```
 
 ### Example 2) Run for 8 hours with 1 hour intervals, output to /home/pi/Camera
 ```
-python3 timelapse.py 28800 3600 /home/pi/Camera
+python3 timelapse.py 28800 3600 1 1 /home/pi/Camera
 ```
 
 ### Example 3) Run for 1 minute with 1 second intervals, output to /home/pi/Camera
 ```
-python3 timelapse.py 60 1 /home/pi/Camera
+python3 timelapse.py 60 1 1 1 /home/pi/Camera
 ```
+
+### Example 4) Run for 1 minute with 1 second intervals, do not resize, create video, output to /home/pi/Camera
+```
+python3 timelapse.py 60 1 0 1 /home/pi/Camera
+```
+
+### Example 5) Run for 1 minute with 1 second intervals, do not resize, do not create video, output to /home/pi/Camera
+```
+python3 timelapse.py 60 1 0 0 /home/pi/Camera
+```
+
+### Example 6) Run for 1 minute with 1 second intervals, do resize, do not create video, output to /home/pi/Camera
+```
+python3 timelapse.py 60 1 1 0 /home/pi/Camera
+```
+
 
 ## Run in background
 
-### Example 4) Will do the following:
+### Example 7) Will do the following:
 * Run as cronjob for 1 minute with 1 second intervals
 * Output images and video to /home/pi/Camera
 * Run at 4AM every morning
@@ -59,7 +79,7 @@ crontab -e
 ```
 #### Add line to the end of the file
 ```
-0 4 * * * python3 /home/pi/Camera/timelapse.py 60 1 /home/pi/Camera >> /home/pi/Camera/output.log 2>$
+0 4 * * * python3 /home/pi/Camera/timelapse.py 60 1 1 1 /home/pi/Camera >> /home/pi/Camera/output.log 2>$
 ```
 #### CTRL+X and 'y' to confirm saved changes
 
